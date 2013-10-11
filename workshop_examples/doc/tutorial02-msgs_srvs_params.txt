@@ -58,14 +58,48 @@ http://wiki.ros.org/ROS/Tutorials
 
 === ROS Workshop (service) ===
 http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Using_srv
+http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29
 * V balíčku vytvořit adresář "srv"
-* Přidat definici servicu "DetectFaces.srv"
+* Přidat definici nového servicu, soubor "DetectFaces.srv"
  bool detect_all
  ---
  workshop_msgs/Detections detections
 * V CMakeLists.txt povolit generování services
  rosbuild_gensrv()
+* Pregenerovat
+ rosmake
+* Zna ROS message ??? FUNGUJE ???
+ rossrv show workshop_examples/DetectFaces
+* Do detektoru přidat callback pro servis
+ #include <workshop_examples/DetectFaces.h>
+ 
+ bool detect(workshop_examples::DetectFaces::Request  &req,
+             workshop_examples::DetectFaces::Response &res
+             )
+ {
+     ROS_INFO_STREAM("Request: detect_all = " << req.detect_all);
+ 
+     res.detections.type = workshop_msgs::Detections::FACE;
+ 
+     sensor_msgs::RegionOfInterest det;
+     det.x_offset = 100;
+     det.y_offset = 100;
+     det.width = 64;
+     det.height = 64;
+     res.detections.rects.push_back(det);
+
+     ROS_INFO_STREAM("...sending back response.");
+     return true;
+ }
+* Vytvořit service server
+ ros::NodeHandle n;
+ ros::ServiceServer service = n.advertiseService("detect_faces", detect);
+* Zkompilovat
+ rosmake
+* Spustit
+ rosrun workshop_examples example_service
+* Vyzkoušet
+ rosservice call /detect_faces "detect_all: true"
 
 === ROS Workshop (launchfile and parameters) ===
 * 
-
