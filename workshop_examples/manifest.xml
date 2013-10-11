@@ -1,0 +1,18 @@
+<package>
+  <description brief="workshop_examples">
+
+     workshop_examples
+
+  </description>
+  <author>Michal Spanel</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/workshop_examples</url>
+
+  <depend package="roscpp" />
+  <depend package="std_msgs" />
+  <depend package="sensor_msgs" />
+
+  <depend package="workshop_msgs"/>
+
+</package>
