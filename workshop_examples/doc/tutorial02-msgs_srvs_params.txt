@@ -15,18 +15,20 @@ http://wiki.ros.org/ROS/Tutorials
 * Vytvořit message Detections.msg
  int32 FACE=0    # Head detections
  int32 BODY=1    # Whole body regions
- Header header
  int32 type
- sensor_msgs/RegionOfInterest[] detections
+ sensor_msgs/RegionOfInterest[] rects
 * Info o typech je zde
  http://wiki.ros.org/msg?action=show&redirect=ROS%2FMessage_Description_Language
 * Zakladni zpravy
  http://wiki.ros.org/common_msgs?distro=hydro
+* Vytvořit message DetectionsStamped.msg
+ Header header
+ workshop_msgs/Detections detections
 * Pridat zavislost na sensor_msgs do manifest.xml
  <depend package="std_msgs"/>
  <depend package="sensor_msgs"/>
-* V CMakeLists.txt povolit generování zpráv
- rosbuild%genmsg()
+* V CMakeLists.txt povolit/odkomentovat generování zpráv
+ rosbuild_genmsg()
 * Zkusil "zkompilovat"
  rosmake
 * A zjistit jestli ROS novy message zna... ??? FUNGUJE ???
@@ -35,19 +37,19 @@ http://wiki.ros.org/ROS/Tutorials
 === ROS Workshop (sending custom messages) ===
 * Doplnit do detektoru kód pro publikování zprávy
  ros::NodeHandle n;
- ros::Publisher pub = n.advertise<workshop_msgs::Detections>("face_detections_out", 1000);
+ ros::Publisher pub = n.advertise<workshop_msgs::DetectionsStamped>("face_detections_out", 1000);
  
- workshop_msgs::Detections msg;
+ workshop_msgs::DetectionsStamped msg;
  msg.header.stamp = ros::Time::now();
  msg.header.frame_id = "";
- msg.type = workshop_msgs::Detections::FACE;
+ msg.detections.type = workshop_msgs::Detections::FACE;
  
  sensor_msgs::RegionOfInterest det;
  det.x_offset = 100;
  det.y_offset = 100;
  det.width = 64;
  det.height = 64;
- msg.detections.push_back(det);
+ msg.detections.rects.push_back(det);
  
  pub.publish(msg);
  ROS_INFO_ONCE( "Message sent" );
@@ -55,7 +57,14 @@ http://wiki.ros.org/ROS/Tutorials
  rostopic echo /face_detections_out
 
 === ROS Workshop (service) ===
-* 
+http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Using_srv
+* V balíčku vytvořit adresář "srv"
+* Přidat definici servicu "DetectFaces.srv"
+ bool detect_all
+ ---
+ workshop_msgs/Detections detections
+* V CMakeLists.txt povolit generování services
+ rosbuild_gensrv()
 
 === ROS Workshop (launchfile and parameters) ===
 * 
