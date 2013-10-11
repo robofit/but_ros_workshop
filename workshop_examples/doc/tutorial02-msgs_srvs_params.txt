@@ -1,0 +1,62 @@
+=== ROS Workshop (custom messages) ===
+http://wiki.ros.org/ROS/Tutorials
+* vytvoreni adresare s packages ve workspace
+ mkdir ros_workshop
+ rosws set ros_workshop
+* vytvoreni package v aktuálním adresáři
+ cd ros_workshop
+ roscreate-pkg workshop_msgs
+* Znovu spáchat "source .../setup.bash" (novy package)
+  source ~/rosbuild_ws_hydro/setup.bash
+* Otestovat pomoci roscd ??? FUNGUJE ???
+  roscd workshop_msgs
+* Uvnitr package vytvorit adr. "msg"
+ mkdir msg
+* Vytvořit message Detections.msg
+ int32 FACE=0    # Head detections
+ int32 BODY=1    # Whole body regions
+ Header header
+ int32 type
+ sensor_msgs/RegionOfInterest[] detections
+* Info o typech je zde
+ http://wiki.ros.org/msg?action=show&redirect=ROS%2FMessage_Description_Language
+* Zakladni zpravy
+ http://wiki.ros.org/common_msgs?distro=hydro
+* Pridat zavislost na sensor_msgs do manifest.xml
+ <depend package="std_msgs"/>
+ <depend package="sensor_msgs"/>
+* V CMakeLists.txt povolit generování zpráv
+ rosbuild%genmsg()
+* Zkusil "zkompilovat"
+ rosmake
+* A zjistit jestli ROS novy message zna... ??? FUNGUJE ???
+ rosmsg show workshop_msgs/Detections
+
+=== ROS Workshop (sending custom messages) ===
+* Doplnit do detektoru kód pro publikování zprávy
+ ros::NodeHandle n;
+ ros::Publisher pub = n.advertise<workshop_msgs::Detections>("face_detections_out", 1000);
+ 
+ workshop_msgs::Detections msg;
+ msg.header.stamp = ros::Time::now();
+ msg.header.frame_id = "";
+ msg.type = workshop_msgs::Detections::FACE;
+ 
+ sensor_msgs::RegionOfInterest det;
+ det.x_offset = 100;
+ det.y_offset = 100;
+ det.width = 64;
+ det.height = 64;
+ msg.detections.push_back(det);
+ 
+ pub.publish(msg);
+ ROS_INFO_ONCE( "Message sent" );
+* Vypis zpráv na zadaném topicu
+ rostopic echo /face_detections_out
+
+=== ROS Workshop (service) ===
+* 
+
+=== ROS Workshop (launchfile and parameters) ===
+* 
+
