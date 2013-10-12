@@ -31,3 +31,5 @@ rosbuild_gensrv()
 
 rosbuild_add_executable(example_publisher src/example_publisher.cpp)
 rosbuild_add_executable(example_service src/example_service.cpp)
+rosbuild_add_executable(kinect_image_subscriber src/kinect_image_subscriber.cpp)
+

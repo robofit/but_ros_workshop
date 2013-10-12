@@ -15,4 +15,9 @@
 
   <depend package="workshop_msgs"/>
 
+  <depend package="image_transport"/>
+  <depend package="image_geometry"/>
+  <depend package="cv_bridge"/>
+
 </package>
+
