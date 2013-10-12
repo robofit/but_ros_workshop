@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="workshop_examples" type="example_params" name="example_params" output="screen">
+    <param name="sparam" value="value changed" />
+    <param name="iparam" value="-10.0" />
+    <param name="fparam" value="10" />
+  </node>
+</launch>
