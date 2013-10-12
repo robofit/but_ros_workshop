@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config_file" default="$(find workshop_examples)/config/myparams.yaml" />
+
+  <node pkg="workshop_examples" type="example_params" name="example_params" output="screen">
+    <rosparam file="$(arg config_file)" command="load" />
+  </node>
+</launch>

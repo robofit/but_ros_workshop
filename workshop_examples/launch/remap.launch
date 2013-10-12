@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="workshop_examples" type="example_publisher" name="example_publisher" output="screen">
+    <remap from="face_detections_out" to="/faces" />
+  </node>
+</launch>
