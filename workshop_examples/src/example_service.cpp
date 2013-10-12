@@ -1,4 +1,5 @@
-/*
+/** \file
+ *
  * Robo@FIT, ROS Workshop 2013
  *
  * Sample service
