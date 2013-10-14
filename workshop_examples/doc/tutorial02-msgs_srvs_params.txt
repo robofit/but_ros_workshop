@@ -71,6 +71,7 @@ http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29
 * Zna ROS message ??? FUNGUJE ???
  rossrv show workshop_examples/DetectFaces
 * Do detektoru přidat callback pro servis
+ #include <ros/ros.h>
  #include <workshop_examples/DetectFaces.h>
  
  bool detect(workshop_examples::DetectFaces::Request  &req,
@@ -102,4 +103,71 @@ http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29
  rosservice call /detect_faces "detect_all: true"
 
 === ROS Workshop (launchfile and parameters) ===
-* 
+* V balíčku vytvořit podadresář "launch" (ROS a roslaunch tuto cestu prohledává)
+ mkdir launch
+* Vytvořit jednoduchý launch file pro spuštění vlastního nodu "remap.launch"
+ <?xml version="1.0"?>
+ <launch>
+   <node pkg="workshop_examples" type="example_publisher" name="example_publisher" output="screen">
+   </node>
+ </launch>
+* Spustíme přes roslaunch
+ roslaunch workshop_examples remap.launch
+* Otestujme výstup
+ rostopic echo /face_detections_out
+* Přemapování vstupů a výstupů
+ <remap from="face_detections_out" to="/faces" />
+* Vyzkoušejme... ???FUNGUJE???
+ roslaunch workshop_examples remap.launch
+ rostopic echo /faces
+* Jak na předávání parametrů do nodu?
+* Nejprve čtení v nodu (jednoduchý příklad viz example_params.cpp)
+ #include <ros/ros.h>
+ 
+ const std::string SPARAM_NAME("sparam");
+ 
+ int main(int argc, char **argv)
+ {
+     ros::init(argc, argv, "example_params");
+     ros::NodeHandle private_nh("~");
+     
+     std::string sparam( "default" );
+     private_nh.param( SPARAM_NAME, sparam, sparam );
+     
+     ROS_INFO_STREAM( SPARAM_NAME << " parameter: " << sparam );
+ }
+* Zkompilujeme (případně upravíme CMakeLists.txt) a spustíme přímo...
+ rosrun workshop_examples example_params
+* Zkusme vytvořit launch file "params.launch" a přidat nastavení parametrů
+ <?xml version="1.0"?>
+ <launch>
+   <node pkg="workshop_examples" type="example_params" name="example_params" output="screen">
+     <param name="sparam" value="value changed" />
+     <param name="iparam" value="-10.0" />
+     <param name="fparam" value="10" />
+   </node>
+ </launch>
+* A spusťme přes launch file... ???FUNGUJE???
+ roslaunch workshop_examples params.launch
+* Elegantní varianta práce s parametry je přes konfigurační soubory (YAML formát)...
+* V balíčku vytvořme adr. "config"
+ mkdir config
+* A v něm textový soubor "myparams.yaml" 
+ sparam: "value changed from config"
+ iparam: 20
+ fparam: -20.0
+* Upravme launch file tak, aby načetl parametr z configu
+ <?xml version="1.0"?>
+ <launch>
+   <arg name="config_file" default="$(find workshop_examples)/config/myparams.yaml" />
+
+   <node pkg="workshop_examples" type="example_params" name="example_params" output="screen">
+     <rosparam file="$(arg config_file)" command="load" />
+   </node>
+ </launch>
+* Vyzkoušejme... ???FUNGUJE???
+ roslaunch workshop_examples yaml.launch
+* Launch file umí volat i jiný launch file, třeba ten náš...
+ <include file="$(find workshop_examples)/launch/yaml.launch" />
+  <arg name="config_file" value="xyz.yaml"/>
+ </include>

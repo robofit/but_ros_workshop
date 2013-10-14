@@ -1,0 +1,7 @@
+###############################################################################
+# Sample configuration file
+
+sparam: "value changed from config"
+iparam: 20
+fparam: -20.0
+
