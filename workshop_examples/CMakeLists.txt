@@ -35,4 +35,6 @@ rosbuild_add_executable(example_publisher src/example_publisher.cpp)
 rosbuild_add_executable(example_service src/example_service.cpp)
 rosbuild_add_executable(example_params src/example_params.cpp)
 
+rosbuild_add_executable(kinect_image_subscriber src/kinect_image_subscriber.cpp)
+
 rosbuild_add_executable(example_service_client_0 src/example_service_client_0.cpp)
