@@ -21,6 +21,8 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 rosbuild_gensrv()
 
+include_directories( include/workshop_examples )
+
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
 #target_link_libraries(${PROJECT_NAME} another_library)
@@ -31,3 +33,6 @@ rosbuild_gensrv()
 
 rosbuild_add_executable(example_publisher src/example_publisher.cpp)
 rosbuild_add_executable(example_service src/example_service.cpp)
+
+rosbuild_add_executable(example_service_client_0 src/example_service_client_0.cpp)
+rosbuild_add_executable(example_service_client src/example_service_client.cpp)
