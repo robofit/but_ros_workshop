@@ -1,41 +1,44 @@
-=== ROS Workshop (custom messages) ===
+=== ROS - Custom messages ===
 http://wiki.ros.org/ROS/Tutorials
-* vytvoreni adresare s packages ve workspace
+* Vytvoření adresáře s packages ve workspace
  mkdir ros_workshop
  rosws set ros_workshop
-* vytvoreni package v aktuálním adresáři
+* Vytvoření package v aktuálním adresáři
  cd ros_workshop
  roscreate-pkg workshop_msgs
-* Znovu spáchat "source .../setup.bash" (novy package)
+* Znovu spáchat "source setup.bash" (nový package)
   source ~/rosbuild_ws_hydro/setup.bash
-* Otestovat pomoci roscd ??? FUNGUJE ???
+* Otestovat pomoci roscd ???FUNGUJE???
   roscd workshop_msgs
-* Uvnitr package vytvorit adr. "msg"
+* Uvnitř package vytvořit adr. "msg"
  mkdir msg
 * Vytvořit message Detections.msg
  int32 FACE=0    # Head detections
  int32 BODY=1    # Whole body regions
  int32 type
  sensor_msgs/RegionOfInterest[] rects
-* Info o typech je zde
+* Info o základních typech (int32, float64, atd.) je zde
  http://wiki.ros.org/msg?action=show&redirect=ROS%2FMessage_Description_Language
-* Zakladni zpravy
+* Již existující zakladní zprávy
  http://wiki.ros.org/common_msgs?distro=hydro
 * Vytvořit message DetectionsStamped.msg
  Header header
  workshop_msgs/Detections detections
-* Pridat zavislost na sensor_msgs do manifest.xml
+* Přidat závislost na sensor_msgs do "manifest.xml"
  <depend package="std_msgs"/>
  <depend package="sensor_msgs"/>
 * V CMakeLists.txt povolit/odkomentovat generování zpráv
  rosbuild_genmsg()
 * Zkusil "zkompilovat"
  rosmake
-* A zjistit jestli ROS novy message zna... ??? FUNGUJE ???
+* A zjistit jestli ROS nový message zná... ???FUNGUJE???
  rosmsg show workshop_msgs/Detections
 
-=== ROS Workshop (sending custom messages) ===
+=== ROS - Sending custom messages ===
 * Doplnit do detektoru kód pro publikování zprávy
+ #include <ros/ros.h>
+ #include <workshop_examples/DetectionsStamped.h>
+ 
  ros::NodeHandle n;
  ros::Publisher pub = n.advertise<workshop_msgs::DetectionsStamped>("face_detections_out", 1000);
  
@@ -56,19 +59,20 @@ http://wiki.ros.org/ROS/Tutorials
 * Vypis zpráv na zadaném topicu
  rostopic echo /face_detections_out
 
-=== ROS Workshop (service) ===
+=== ROS - Introduction to services ===
 http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Using_srv
 http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29
 * V balíčku vytvořit adresář "srv"
+ mkdir srv
 * Přidat definici nového servicu, soubor "DetectFaces.srv"
  bool detect_all
  ---
  workshop_msgs/Detections detections
 * V CMakeLists.txt povolit generování services
  rosbuild_gensrv()
-* Pregenerovat
+* Přegenerovat...
  rosmake
-* Zna ROS message ??? FUNGUJE ???
+* Zná ROS nový service ???FUNGUJE???
  rossrv show workshop_examples/DetectFaces
 * Do detektoru přidat callback pro servis
  #include <ros/ros.h>
@@ -102,7 +106,7 @@ http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29
 * Vyzkoušet
  rosservice call /detect_faces "detect_all: true"
 
-=== ROS Workshop (launchfile and parameters) ===
+=== ROS - Launchfiles and parameters ===
 * V balíčku vytvořit podadresář "launch" (ROS a roslaunch tuto cestu prohledává)
  mkdir launch
 * Vytvořit jednoduchý launch file pro spuštění vlastního nodu "remap.launch"
@@ -171,3 +175,4 @@ http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29
  <include file="$(find workshop_examples)/launch/yaml.launch" />
   <arg name="config_file" value="xyz.yaml"/>
  </include>
+
