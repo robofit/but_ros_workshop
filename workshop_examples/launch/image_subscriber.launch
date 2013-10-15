@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="workshop_examples" type="example_image_subscriber" name="example_image_subscriber" output="screen">
+    <remap from="image_in" to="/camera/image" />
+  </node>
+</launch>

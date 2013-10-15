@@ -1,0 +1,13 @@
+<package>
+  <description brief="workshop_data">
+
+     workshop_data
+
+  </description>
+  <author>Michal Spanel, Vita Beran</author>
+  <license>LGPL</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/workshop_data</url>
+
+</package>
+

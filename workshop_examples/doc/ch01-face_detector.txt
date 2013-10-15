@@ -1,0 +1,64 @@
+po instalaci
+	$ http://wiki.ros.org/hydro/Installation/Ubuntu
+vcetne 
+	$ sudo apt-get install python-rosinstall
+
+pridat do ~/.bashrc
+	source /opt/ros/hydro/setup.bash
+
+Create workspace / *rosbuild* and catkin
+
+	$ rosws init ~/rosbuild_ws /opt/ros/hydro
+pridat do ~/.bashrc
+	source /home/but/rosbuild_ws/setup.bash
+
+$ mkdir ~/rosbuild_ws/sandbox
+$ rosws set ~/rosbuild_ws/sandbox
+
+
+first package
+$ roscd
+$ cd sandbox
+$ roscreate-pkg begin_ros std_msgs rospy roscpp
+$ rosmake begin_ros
+$ make eclipse-project
+
+open Eclipse
+	import general existing - path
+
+OpenCV introduction
+
+#1 opencv node, camera reading
+	new file face_det_node.cpp
+!! error - NO opencv2 - to jsme chteli :)
+manifest.xml
+	add  <depend package="opencv2"/>
+
+#2 image publishing and view
+	rosrun image_view image_view image:=/camera/image
+
+image_transport provides classes and nodes for transporting images in arbitrary over-the-wire representations, while abstracting this complexity so that the developer only sees sensor_msgs/Image messages.
+
+#3 bag recording and playing
+rosbag record name
+rosbag play name
+	-l loop
+	-r rate
+	--pause
+
+#4 image subscriber
+hm, a nejede? jmeno vstupniho topicu ... udelame launch
+
+#5 launch file
+remap ..  jako alias
+
+#6 face det node
+	add classifier
+	draw results
+	publish results - ani neni nutne
+
+CMakeList.txt
+   rosbuild_add_executable(face_det_node src/face_det_node.cpp)
+
+...
+

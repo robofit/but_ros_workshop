@@ -4,29 +4,31 @@
  * Sample service
  */
 
-#include "example_service_client.h"
+#include <workshop_examples/example_service_client_0.h>
 
 using namespace workshop_examples;
 using namespace std;
 
 
-ExampleServiceClient::ExampleServiceClient(): it_(nh_) {
-
+ExampleServiceClient::ExampleServiceClient(ros::NodeHandle& nh): nh_(nh)
+{
 	srv_client_ = nh_.serviceClient<workshop_examples::DetectFaces>("srv_name");
 
 	ROS_INFO("Service client initialized.");
-
 }
 
-ExampleServiceClient::~ExampleServiceClient() {};
 
+ExampleServiceClient::~ExampleServiceClient()
+{
+}
 
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "face_service_client");
 
-    ExampleServiceClient client;
+    ros::NodeHandle n;
+    ExampleServiceClient client(n);
 
     ros::spin();
 

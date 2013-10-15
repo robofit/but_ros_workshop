@@ -13,7 +13,7 @@ namespace workshop_examples {
 
 		public:
 
-			ExampleServiceClient();
+			ExampleServiceClient(ros::NodeHandle& nh);
 			~ExampleServiceClient();
 
 
