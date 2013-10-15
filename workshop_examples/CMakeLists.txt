@@ -31,10 +31,13 @@ include_directories( include/workshop_examples )
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
+rosbuild_add_executable(opencv_image_publisher src/opencv_image_publisher.cpp)
+rosbuild_add_executable(example_image_subscriber src/example_image_subscriber.cpp)
+rosbuild_add_executable(face_det_node src/face_det_node.cpp)
+rosbuild_add_executable(face_det_service src/face_det_service.cpp)
+
 rosbuild_add_executable(example_publisher src/example_publisher.cpp)
 rosbuild_add_executable(example_service src/example_service.cpp)
 rosbuild_add_executable(example_params src/example_params.cpp)
-
-rosbuild_add_executable(kinect_image_subscriber src/kinect_image_subscriber.cpp)
 
 rosbuild_add_executable(example_service_client_0 src/example_service_client_0.cpp)

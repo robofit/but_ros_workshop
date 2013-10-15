@@ -1,3 +1,4 @@
+# This service requests one or all face detections from a running detector
 bool detect_all
 ---
 workshop_msgs/Detections detections

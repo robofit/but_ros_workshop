@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="workshop_examples" type="face_det_service" name="face_det_service" output="screen">
+    <remap from="image_in"  to="/camera/image" />
+    <remap from="detect_faces" to="/detect_faces" />
+  </node>
+</launch>
