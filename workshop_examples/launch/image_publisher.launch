@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="workshop_examples" type="opencv_image_publisher" name="opencv_image_publisher" output="screen">
+    <remap from="image_out" to="/camera/image" />
+  </node>
+</launch>
