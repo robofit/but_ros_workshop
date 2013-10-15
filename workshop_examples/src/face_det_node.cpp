@@ -13,6 +13,7 @@
 #include <sensor_msgs/image_encodings.h>
 
 #include <workshop_msgs/DetectionsStamped.h>
+#include <workshop_msgs/Detections.h>
 
 
 cv::CascadeClassifier face_cascade;
